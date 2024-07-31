@@ -110,7 +110,7 @@ b{
 }
 
 .danger{
-    color: var(--color-danger);
+    color: orange;
 }
 
 .success{
@@ -726,8 +726,8 @@ main .recent-orders a{
         <aside>
             <div class="toggle">
                 <div class="logo">
-                    <img src="images/logo.png">
-                    <h2>Ticket<span class="danger">Master</span></h2>
+                    <img src="img/1-removebg-preview.png">
+                    <h2>Event<span class="danger">Flow</span></h2>
                 </div>
                 <div class="close" id="close-btn">
                     <span class="material-icons-sharp">
@@ -780,71 +780,71 @@ main .recent-orders a{
         </aside>
         <!-- End of Sidebar Section -->
 
-        <!-- Main Content -->
-        <main>
-            <h1>Dashboard</h1>
-            <!-- Analyses -->
-            <div class="analyse">
-                <div class="sales">
-                    <div class="status">
-                        <div class="info">
-                            <h3>Number of Events</h3>
-                            <h1>{{ $events_count }}</h1>
-                        </div>
-                    </div>
-                </div>
-                <div class="visits">
-                    <div class="status">
-                        <div class="info">
-                            <h3>Tickets Sold</h3>
-                            <h1>{{ $tickets_sold }}</h1>
-                        </div>
-                    </div>
-                </div>
-                <div class="searches">
-                    <div class="status">
-                        <div class="info">
-                            <h3>Total Revenue</h3>
-                            <h1>${{ $total_revenue }}</h1>
-                        </div>
-                    </div>
+<!-- Main Content -->
+<main>
+    <h1>Dashboard</h1>
+    <!-- Analyses -->
+    <div class="analyse">
+        <div class="sales">
+            <div class="status">
+                <div class="info">
+                    <h3>Number of Events</h3>
+                    <h1>{{ $events_count }}</h1>
                 </div>
             </div>
-            <!-- End of Analyses -->
-
-            <!-- Recent Purchases Table -->
-            <div class="recent-orders">
-                <h2>Recent Purchases</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Ticket Type</th>
-                            <th>Number of Tickets</th>
-                            <th>Total Price</th>
-                            <th>Phone Number</th>
-                            <th>Payment Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($recentPurchases as $purchase)
-                        <tr>
-                            <td>{{ $purchase['user']->name }}</td>
-                            <td>{{ $purchase['type'] }}</td>
-                            <td>{{ $purchase['total_tickets'] }}</td>
-                            <td>${{ $purchase['total_price'] }}</td>
-                            <td>{{ $purchase['phone'] }}</td>
-                            <td>{{ $purchase['created_at']->format('Y-m-d H:i') }}</td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-                <a href="#">Show All</a>
+        </div>
+        <div class="visits">
+            <div class="status">
+                <div class="info">
+                    <h3>Tickets Sold</h3>
+                    <h1>{{ $tickets_sold }}</h1>
+                </div>
             </div>
-            <!-- End of Recent Purchases -->
+        </div>
+        <div class="searches">
+            <div class="status">
+                <div class="info">
+                    <h3>Total Revenue</h3>
+                    <h1>${{ $total_revenue }}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End of Analyses -->
 
-        </main>
-        <!-- End of Main Content -->
+    <!-- Recent Purchases Table -->
+    <div class="recent-orders">
+        <h2>Recent Purchases</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Ticket Type</th>
+                    <th>Number of Tickets</th>
+                    <th>Total Price</th>
+                    <th>Phone Number</th>
+                    <th>Payment Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($recentPurchases as $purchase)
+                <tr>
+                    <td>{{ $purchase['user']->name }}</td>
+                    <td>{{ $purchase['type'] }}</td>
+                    <td>{{ $purchase['total_tickets'] }}</td>
+                    <td>${{ $purchase['total_price'] }}</td>
+                    <td>{{ $purchase['phone'] }}</td>
+                    <td>{{ $purchase['created_at']->format('Y-m-d H:i') }}</td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+        <a href="#">Show All</a>
+    </div>
+    <!-- End of Recent Purchases -->
+</main>
+<!-- End of Main Content -->
+
 
         <!-- Right Section -->
         <div class="right-section">
@@ -869,7 +869,7 @@ main .recent-orders a{
                         <small class="text-muted">Admin</small>
                     </div>
                     <div class="profile-photo">
-                        <img src="images/profile-1.jpg">
+                        <img src="img/1-removebg-preview.png">
                     </div>
                 </div>
 
@@ -878,8 +878,8 @@ main .recent-orders a{
 
             <div class="user-profile">
                 <div class="logo">
-                    <img src="images/logo.png">
-                    <h2>TicketMaster</h2>
+                    <img src="img/1-removebg-preview.png">
+                    <h2>Event<span class="danger">Flow</span></h2>
                     <p>Event Management System</p>
                 </div>
             </div>

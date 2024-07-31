@@ -1,7 +1,9 @@
 <?php
+// app/Http/Controllers/TicketController.php
 
 namespace App\Http\Controllers;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use App\Models\Ticket;
 use App\Models\Event;
@@ -13,6 +15,8 @@ use Illuminate\Support\Facades\Auth;
 
 class TicketController extends Controller
 {
+    use AuthorizesRequests;
+
     protected $orangeMoneyService;
 
     public function __construct(OrangeMoneyService $orangeMoneyService)
@@ -22,12 +26,15 @@ class TicketController extends Controller
 
     public function index()
     {
-        $tickets = Ticket::all();
-        return view('tickets.index', compact('tickets'));
+    $tickets = Ticket::where('user_id', auth()->id())->get();
+    return view('tickets.index', compact('tickets'));
     }
+
 
     public function create()
     {
+        $this->authorize('create', Ticket::class);
+
         $events = Event::all();
         $ticketTypes = TicketType::all();
         return view('tickets.create', compact('events', 'ticketTypes'));
@@ -35,6 +42,8 @@ class TicketController extends Controller
 
     public function store(Request $request)
     {
+        $this->authorize('create', Ticket::class);
+
         $request->validate([
             'event_id' => 'required|exists:events,id',
             'ticket_type_id' => 'required|exists:ticket_types,id',
@@ -60,6 +69,8 @@ class TicketController extends Controller
 
     public function edit(Ticket $ticket)
     {
+        $this->authorize('update', $ticket);
+
         $events = Event::all();
         $ticketTypes = TicketType::all();
         return view('tickets.edit', compact('ticket', 'events', 'ticketTypes'));
@@ -67,6 +78,8 @@ class TicketController extends Controller
 
     public function update(Request $request, Ticket $ticket)
     {
+        $this->authorize('update', $ticket);
+
         $request->validate([
             'event_id' => 'required|exists:events,id',
             'ticket_type_id' => 'required|exists:ticket_types,id',
@@ -86,6 +99,8 @@ class TicketController extends Controller
 
     public function destroy(Ticket $ticket)
     {
+        $this->authorize('delete', $ticket);
+
         // Supprimer le fichier QR Code
         if ($ticket->qr_code_path) {
             Storage::delete('public/' . $ticket->qr_code_path);
@@ -113,7 +128,13 @@ class TicketController extends Controller
             'phone_number' => 'required',
         ]);
 
-        $ticketType = TicketType::findOrFail($request->ticket_type_id);
+        $event = Event::find($request->event_id);
+        $ticketType = TicketType::find($request->ticket_type_id);
+
+        if (!$event->ticketTypes->contains($ticketType)) {
+            return redirect()->back()->withErrors(['ticket_type_id' => 'Le type de billet sélectionné n\'est pas valide pour l\'événement choisi.'])->withInput();
+        }
+
         $tickets = [];
         $amount = 0;
         for ($i = 0; $i < $request->quantity; $i++) {
@@ -177,10 +198,9 @@ class TicketController extends Controller
 
     public function handleCallback(Request $request)
     {
-    $data = $request->all();
-    $this->orangeMoneyService->handleCallback($data);
+        $data = $request->all();
+        $this->orangeMoneyService->handleCallback($data);
 
-    return response()->json(['message' => 'Callback handled']);
+        return response()->json(['message' => 'Callback handled']);
     }
-
 }

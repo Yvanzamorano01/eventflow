@@ -1,26 +1,35 @@
 <?php
+// app/Http/Controllers/EventController.php
 
 namespace App\Http\Controllers;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use App\Models\Event;
 use App\Models\TicketType;
+use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
 {
+    use AuthorizesRequests;
+
     public function index()
     {
-        $events = Event::all();
-        return view('events.index', compact('events'));
+    $events = Event::all();
+    return view('events.index', compact('events'));
     }
+
 
     public function create()
     {
+        $this->authorize('create', Event::class);
         return view('events.create');
     }
 
     public function store(Request $request)
     {
+        $this->authorize('create', Event::class);
+
         $request->validate([
             'name' => 'required',
             'description' => 'required',
@@ -66,12 +75,16 @@ class EventController extends Controller
 
     public function edit(Event $event)
     {
+        $this->authorize('update', $event);
+
         $ticketTypes = $event->ticketTypes;
         return view('events.edit', compact('event', 'ticketTypes'));
     }
 
     public function update(Request $request, Event $event)
     {
+        $this->authorize('update', $event);
+
         $request->validate([
             'name' => 'required',
             'description' => 'required',
@@ -113,6 +126,8 @@ class EventController extends Controller
 
     public function destroy(Event $event)
     {
+        $this->authorize('delete', $event);
+
         $event->delete();
         return redirect()->route('events.index')->with('success', 'Event deleted successfully!');
     }

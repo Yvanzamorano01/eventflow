@@ -10,6 +10,7 @@ use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Auth\LoginController;
 
 Route::get('/', function () {
     return view('home.welcome');
@@ -27,6 +28,10 @@ Route::post('tickets/payment/callback', [TicketController::class, 'handleCallbac
 
 Route::get('register', [RegistrationController::class, 'showRegistrationForm'])->name('register');
 Route::post('register', [RegistrationController::class, 'register']);
+
+Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('login', [LoginController::class, 'login']);
+Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 

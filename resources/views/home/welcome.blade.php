@@ -8,7 +8,7 @@
    <!-- <link rel="stylesheet" href="style.css"> -->
    <!-- <script defer src="main.js"></script> -->
     <style>
-        /*Home section*/
+        /* /Home section/ */
 
 body {
     /* background-color:white; */
@@ -137,7 +137,7 @@ p {
 }
 
 
-/*Display of events section*/
+/* /Display of events section/ */
 .first{
     text-align: center;
     background-color: #fff;
@@ -290,7 +290,7 @@ ol img[alt="icon2"]{
 }
 
 
-/*Contact us section*/
+/Contact us section/
 #body{
     position: relative;
     right: 70px;
@@ -646,10 +646,10 @@ footer{
             </div>
             <div class="header-right">
                 <div class="inscrire">
-                    <button onclick="location.href='signup.html'">S'inscrire</button>
+                    <button onclick="location.href='{{ route('register') }}'">S'inscrire</button>
                 </div>
                 <div class="connecter">
-                    <button onclick="location.href='login.html'">Se connecter</button>
+                    <button onclick="location.href='{{ route('login') }}'">Se connecter</button>
                 </div>
             </div>
         </div>
@@ -954,4 +954,3 @@ footer{
 </body>
 
 </html>
-

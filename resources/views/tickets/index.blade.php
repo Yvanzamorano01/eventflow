@@ -16,21 +16,23 @@
         </thead>
         <tbody>
             @foreach($tickets as $ticket)
-            <tr>
-                <td>{{ $ticket->type }}</td>
-                <td>{{ $ticket->price }}</td>
-                <td>{{ $ticket->event->name }}</td>
-                <td><img src="{{ asset('storage/' . $ticket->qr_code_path) }}" alt="QR Code" width="100"></td>
-                <td>
-                    <a href="{{ route('tickets.show', $ticket->id) }}" class="btn btn-info">View</a>
-                    <a href="{{ route('tickets.edit', $ticket->id) }}" class="btn btn-warning">Edit</a>
-                    <form action="{{ route('tickets.destroy', $ticket->id) }}" method="POST" style="display:inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
-                </td>
-            </tr>
+                @if($ticket->user_id === auth()->id())
+                    <tr>
+                        <td>{{ $ticket->type }}</td>
+                        <td>{{ $ticket->price }}</td>
+                        <td>{{ $ticket->event->name }}</td>
+                        <td><img src="{{ asset('storage/' . $ticket->qr_code_path) }}" alt="QR Code" width="100"></td>
+                        <td>
+                            <a href="{{ route('tickets.show', $ticket->id) }}" class="btn btn-info">View</a>
+                            <a href="{{ route('tickets.edit', $ticket->id) }}" class="btn btn-warning">Edit</a>
+                            <form action="{{ route('tickets.destroy', $ticket->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                @endif
             @endforeach
         </tbody>
     </table>
